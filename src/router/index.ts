@@ -7,7 +7,7 @@ const router = createRouter({
     routes: [
         // Public
         { path: '/', name: 'home', component: HomePage },
-        { path: '/', name: 'home', component: AboutPage },
+        { path: '/about', name: 'about', component: AboutPage },
 
         // Characters
         {
