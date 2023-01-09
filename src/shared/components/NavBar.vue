@@ -1,11 +1,17 @@
 <script setup lang="ts">
 
+interface Props {
+    title: string
+}
+
+const props = defineProps<Props>()
+
 </script>
 
 <template>
     <nav>
         <img src="@/assets/logo.svg" alt="Vue Logo" height="25" width="25" />
-        <span>Algo</span>
+        <span>{{props.title || 'no title'}}</span>
 
         <RouterLink to="/">Inicio</RouterLink>
         <RouterLink to="/about">Sobre</RouterLink>
