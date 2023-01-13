@@ -2,7 +2,7 @@ import type { RouteRecordRaw } from "vue-router";
 
 import CharacterLayout from "@/characters/layout/CharacterLayout.vue";
 import CharacterId from "@/characters/pages/CharacterId.vue";
-import CharacterList from "@/characters/pages/CharacterSearch.vue";
+import CharacterList from "@/characters/pages/CharacterList.vue";
 import CharacterSearch from "@/characters/pages/CharacterSearch.vue";
 
 export const characterRoute: RouteRecordRaw = {
@@ -19,7 +19,7 @@ export const characterRoute: RouteRecordRaw = {
         {
             path: 'list',
             name: 'character-list',
-            props: { title: 'Lista', visible: true },
+            props: { title: 'Lista completa', visible: true },
             component: CharacterList 
         },
         {
