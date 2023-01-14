@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import rickAndMortyApi from '@/api/rickAndMortyApi';
+import type { Character } from '@/characters/interfaces/character';
 
 
-rickAndMortyApi.get('/character').then(resp => {
-    console.log({resp})
+rickAndMortyApi.get<Character>('/character').then(resp => {
+
+    const name = resp.data.results[0].name
+    console.log({name})
 })
 
 </script>
