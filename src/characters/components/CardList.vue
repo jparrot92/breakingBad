@@ -14,13 +14,22 @@ import { useQuery } from '@tanstack/vue-query';
 
 //! 3- TanStack Query
 const getCharactersSlow = async():Promise<Character[]> => {
-    const results = await rickAndMortyApi.get<ResponseData>('/character')
-    return results.data.results
+
+    return new Promise( (resolve) => {
+        setTimeout( async() => {
+            const results = await rickAndMortyApi.get<ResponseData>('/character')
+            resolve (results.data.results)
+        }, 3000)
+    })
+
+    
 }
 
 const { isLoading, isError, data: characters, error } = useQuery({
     queryKey: ['characters'],
     queryFn: getCharactersSlow,
+    cacheTime: 1000 * 60,
+    refetchOnReconnect: 'always'
 })
 
 </script>
