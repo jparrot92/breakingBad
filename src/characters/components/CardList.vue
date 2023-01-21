@@ -21,7 +21,8 @@ const getCharactersSlow = async():Promise<Character[]> => {
         setTimeout( async() => {
             const results = await rickAndMortyApi.get<ResponseData>('/character')
             resolve (results.data.results)
-        }, 1000)
+            // resolve(results.data.results.filter( character => ![14, 17, 39].includes(character.id) ) );
+        }, 1)
     })
 
     

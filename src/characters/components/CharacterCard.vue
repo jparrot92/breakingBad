@@ -13,6 +13,17 @@ const character = toRef(props, 'character');
         <img :src="character.image" :alt="character.name">
         <h3>{{ character.name }}</h3>
     </div>
+
+    <!-- <div v-if="![14, 17, 39].includes(character.id)" class="character-card">
+        <img :src="character.image" :alt="character.name">
+        <h3>{{ character.name }}</h3>
+    </div> -->
+
+    <!-- <div class="character-card">
+        <img v-if="[14, 17, 39].includes(character.id)" src="https://www.crescenttide.com/wp-content/uploads/2019/07/no-avatar-300x300.png" alt="No image" />
+        <img v-else :src="character.image" :alt="character.name">
+        <h3>{{ character.name }}</h3>
+    </div> -->
 </template>
 
 
