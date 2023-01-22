@@ -14,7 +14,7 @@ interface Store {
     // Métodos de Characters
     startLoadingCharacters: () => void;
     loadedCharacters: ( data: Character[] ) => void;
-    loadCharactersFailed: ( error: string ) => void;
+    loadCharactersFailed: ( error: any ) => void;
 }
 
 // Initial State
@@ -41,8 +41,14 @@ const characterStore = reactive<Store>({
             list: data,
         }
     },
-    loadCharactersFailed( error: string ) {
-
+    loadCharactersFailed( error: any ) {
+        this.characters = {
+            count: 0,
+            errorMessage: error.response.data.error,
+            hasError: true,
+            isLoading: false,
+            list: []
+        }
     },
 });
 
