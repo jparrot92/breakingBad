@@ -9,17 +9,18 @@ import type { ResponseData, Character } from '@/characters/interfaces/character'
 
 const props = defineProps<{ title: string, visible: boolean}>()
 
-// const getCharacters = async(): Promise<Character[]> => {
-//     const { data } = await rickAndMortyApi.get<ResponseData>('/character')
-//     return data.results
-// }
+const getCharacters = async(): Promise<Character[]> => {
+    const { data } = await rickAndMortyApi.get<ResponseData>('/character')
+    return data.results
+}
 
-// const { isLoading, data: characters } = useQuery({
-//     queryKey: ['characters'],
-//     queryFn: getCharacters,
-// })
-
-characterStore
+const { isLoading, data } = useQuery({
+    queryKey: ['characters'],
+    queryFn: getCharacters,
+    onSuccess(data){
+        characterStore.loadedCharacters(data)
+    }
+})
 
 </script>
 
