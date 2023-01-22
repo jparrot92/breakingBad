@@ -1,15 +1,32 @@
 <script setup lang="ts">
+import { useQuery } from '@tanstack/vue-query';
+
+import rickAndMortyApi from '@/api/rickAndMortyApi';
 import CardList from '@/characters/components/CardList.vue'
+import type { ResponseData, Character } from '@/characters/interfaces/character';
 
 const props = defineProps<{ title: string, visible: boolean}>()
+
+const getCharacters = async(): Promise<Character[]> => {
+    const { data } = await rickAndMortyApi.get<ResponseData>('/character')
+    return data.results
+}
+
+const { isLoading, data: characters } = useQuery({
+    queryKey: ['characters'],
+    queryFn: getCharacters,
+})
 
 </script>
 
 <template>
+    <h1 v-if="isLoading">Loading...</h1>
 
-    <h2>{{ props.title }}</h2>
+    <template v-else>
+        <h2>{{ props.title }}</h2>
 
-    <CardList />
+        <CardList :characters="characters || []"/>
+    </template>
 
 </template>
 
