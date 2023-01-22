@@ -1,4 +1,5 @@
-import type { Character  } from "@/characters/interfaces/character";
+import { reactive } from "vue";
+import type { Character } from "@/characters/interfaces/character";
 
 interface Store {
     characters: {
@@ -14,3 +15,29 @@ interface Store {
     loadedCharacters: ( data: Character[] ) => void;
     loadCharactersFailed: ( error: string ) => void;
 }
+
+// Initial State
+const characterStore = reactive<Store>({
+    characters: {
+        count: 0,
+        errorMessage: null,
+        hasError: false,
+        isLoading: true,
+        list: []
+    },
+
+    // Métodos
+    async startLoadingCharacters() {
+        console.log('Start Loading Characters')
+    },
+    loadedCharacters( data: Character[] | string ) {
+
+    },
+    loadCharactersFailed( error: string ) {
+
+    },
+});
+
+characterStore.startLoadingCharacters();
+
+export default characterStore;
