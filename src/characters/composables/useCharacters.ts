@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useQuery } from '@tanstack/vue-query';
 
 import type { Character, ResponseData } from '@/characters/interfaces/character';
@@ -47,7 +47,7 @@ const useCharacters = () => {
         errorMessage, 
 
         // Getters
-        count: characters.value.length
+        count: computed(() => characters.value.length)
 
         // Methods
     }
