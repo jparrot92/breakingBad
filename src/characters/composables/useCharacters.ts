@@ -1,45 +1,56 @@
-import axios from "axios"
-import { onMounted, ref } from "vue"
+import { ref } from 'vue';
+import { useQuery } from '@tanstack/vue-query';
 
-import type { Character, ResponseData } from "../interfaces/character"
-import rickAndMortyApi from "@/api/rickAndMortyApi"
+import type { Character, ResponseData } from '@/characters/interfaces/character';
+import rickAndMortyApi from '@/api/rickAndMortyApi';
 
-const characters = ref<Character[]>([])
-const isLoading = ref<boolean>(true)
-const hasError = ref<boolean>(false)
-const errorMessage = ref<string>()
+const characters    = ref<Character[]>([]);
+const hasError      = ref<boolean>(false);
+const errorMessage  = ref<string | null>(null);
 
-export const useCharacters = () => {
+const getCharacters = async(): Promise<Character[]> => {
 
-    onMounted(async()=>{
-        await loadCharacters()
-    })
-
-    const loadCharacters = async () => {
-        if( characters.value.length ) return
-
-        isLoading.value = true
-        try {
-            const { data } = await rickAndMortyApi.get<ResponseData>('/character')
-            characters.value = data.results
-            isLoading.value = false
-
-        } catch (error) {
-            hasError.value = true
-            isLoading.value = false
-            
-            if(axios.isAxiosError(error)){
-                return errorMessage.value = error.message
-            }
-            errorMessage.value = JSON.stringify(error)
-        }
+    if(characters.value.length > 0){
+        return characters.value
     }
 
+    const { data } = await rickAndMortyApi.get<ResponseData>('/character')
+    return data.results
+}
+
+const loadedCharacters = ( data: Character[] ) => {
+    errorMessage.value = null;
+    hasError.value = false;
+    characters.value = data;
+}
+
+const loadCharactersFailed = ( error: any ) => {
+    errorMessage.value = error.response.data.error;
+    hasError.value = true;
+    characters.value = [];
+}
+
+const useCharacters = () => {
+
+    const { isLoading } = useQuery({
+        queryKey: ['characters'],
+        queryFn: getCharacters,
+        onSuccess: loadedCharacters,
+        onError: loadCharactersFailed
+    })
 
     return {
+        // Properties
         characters,
         isLoading,
         hasError,
-        errorMessage
+        errorMessage, 
+
+        // Getters
+        count: characters.value.length
+
+        // Methods
     }
 }
+
+export default useCharacters;
