@@ -9,6 +9,12 @@ const route  = useRoute();
 const { id } = route.params as { id: string }
 const { character, hasError, errorMessage, isLoading } = useCharacter( id );
 
+watchEffect(() => {
+    if ( !isLoading.value && hasError.value ) {
+        router.replace('/characters');
+    }
+});
+
 </script>
 
 <template>
